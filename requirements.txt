@@ -1,0 +1,6 @@
+# requirements.txt
+slack_sdk>=3.0.0
+google-generativeai>=0.3.0
+# もし Vertex AI を使う場合は google-cloud-aiplatform>=1.25.0
+
+# Flask や FastAPI などのWebフレームワークを使う場合はここに追加
