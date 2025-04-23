@@ -1,0 +1,5 @@
+# .gitignore
+__pycache__/
+*.pyc
+venv/  # もし仮想環境を使っていたら
+.env   # 環境変数ファイル (もし使う場合)
