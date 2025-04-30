@@ -9,14 +9,14 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 # import google.generativeai as genai # ★Gemini関連をコメントアウト
 
-# 環境変数
+# Vercel上にセットした環境変数を読み込む
 SLACK_SIGNING_SECRET = os.environ.get('SLACK_SIGNING_SECRET')
 SLACK_BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 # GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY') # ★Gemini関連をコメントアウト
 TARGET_CHANNEL_ID = os.environ.get('TARGET_CHANNEL_ID')
 MONITOR_CHANNEL_ID = os.environ.get('MONITOR_CHANNEL_ID')
 
-# --- Slackクライアント初期化 ---
+# --- Initialize Slack Client ---
 try:
     slack_client = WebClient(token=SLACK_BOT_TOKEN)
     print("Slack client initialized.")
@@ -25,7 +25,7 @@ except Exception as e:
     slack_client = None
 # --- ここまで ---
 
-# --- Geminiクライアント初期化 (コメントアウト) ---
+# --- Geminiクライアント初期化 (一旦コメントアウトしている) ---
 # try:
 #     genai.configure(api_key=GEMINI_API_KEY)
 #     gemini_model = genai.GenerativeModel('gemini-pro')
@@ -35,7 +35,7 @@ except Exception as e:
 #     gemini_model = None
 # --- ここまで ---
 
-# --- 署名検証関数 (変更なし) ---
+# --- 署名検証関数 ---
 def verify_slack_request(headers, body_bytes):
     # (前回実装したコードのまま)
     if not SLACK_SIGNING_SECRET: return True # 安全のため、実装済みならコメントアウトを推奨
@@ -70,12 +70,12 @@ class handler(BaseHTTPRequestHandler):
             event = data.get('event', {})
             received_channel_id = event.get('channel')
 
-            # 監視対象チャンネルからのメッセージか？
+            # 監視対象チャンネルからのメッセージか？を検証する
             if (event.get('type') == 'message' and
                     'subtype' not in event and
                     received_channel_id == MONITOR_CHANNEL_ID):
 
-                message_text = event.get('text', '') # 一応取得はしておく
+                message_text = event.get('text', '')
                 user = event.get('user')
                 ts = event.get('ts')
                 print(f"Received message from MONITOR channel ({MONITOR_CHANNEL_ID}): '{message_text}'")
