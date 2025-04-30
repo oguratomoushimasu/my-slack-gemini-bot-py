@@ -68,12 +68,12 @@ class handler(BaseHTTPRequestHandler):
             return
 
         # --- Slack リクエスト署名検証 (重要！) ---
-        if not verify_slack_request(self.headers, body_bytes):
-            self.send_response(403)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b"Invalid Slack signature")
-            return
+        # if not verify_slack_request(self.headers, body_bytes):
+        #     self.send_response(403)
+        #     self.send_header('Content-type', 'text/plain')
+        #     self.end_headers()
+        #     self.wfile.write(b"Invalid Slack signature")
+        #     return
         # --- ここまで ---
 
         # --- ボディのパース ---
