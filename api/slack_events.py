@@ -53,6 +53,7 @@ def verify_slack_request(headers, body_bytes):
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
+        print("--- Function handler started ---")
         # ... (リクエスト読み取り、署名検証、ボディパース、URL検証 - 前回のコードのまま) ...
         content_length = int(self.headers.get('Content-Length', 0))
         body_bytes = self.rfile.read(content_length)
